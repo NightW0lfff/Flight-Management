@@ -13,19 +13,27 @@ public:
   Booking(std::string bookingReferenceNumber, Flight *flight, const Passenger &passenger)
       : bookingReferenceNumber(bookingReferenceNumber), flight(flight), passenger(passenger) {}
 
-  bool createBooking()
+  bool createBooking(Flight *flight, const Passenger &passenger)
   {
     return flight->addPassenger(passenger);
   }
 
-  bool cancelBooking()
+  bool cancelBooking(Flight *flight, const Passenger &passenger)
   {
     return flight->removePassenger(passenger);
   }
 
-  void updateBooking(Flight *flight)
+  bool updateBooking(std::vector<Flight *> &flights, Flight *updatedFlight, const Passenger &passenger)
   {
-    this->flight = flight;
+    for (auto &flight : flights)
+    {
+      if (flight->getFlightNo() == updatedFlight->getFlightNo())
+      {
+        flight = updatedFlight;
+        return true;
+      }
+    }
+    return false;
   }
 
   void displayBookingDetails() const

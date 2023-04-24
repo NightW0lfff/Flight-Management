@@ -1,32 +1,42 @@
-#ifndef INTERNATIONAL_H
-#define INTERNATIONAL_H
+// #ifndef INTERNATIONAL_H
+// #define INTERNATIONAL_H
 
-#include "flight.h"
-#include <iostream>
-#include <string>
-#include <vector>
+// #include "flight.h"
+// #include <iostream>
+// #include <string>
+// #include <vector>
 
-class InternationalFlight : public Flight
-{
-public:
-  InternationalFlight(std::string flightNumber, std::string origin,
-                      std::string destination, std::string departureTime,
-                      std::string arrivalTime)
-      : Flight(flightNumber, origin, destination, departureTime, arrivalTime) {}
-  //   ,internationalSurcharge(internationalSurcharge) {}
+// class InternationalFlight : public Flight
+// {
+// public:
+//   InternationalFlight(std::string flightNumber, std::string origin,
+//                       std::string destination, std::string departureTime,
+//                       std::string arrivalTime)
+//       : Flight(flightNumber, origin, destination, departureTime, arrivalTime) {}
+//   //   ,internationalSurcharge(internationalSurcharge) {}
 
-  void applyInternationalSurcharge(double surcharge)
-  {
-    internationalSurcharge = surcharge;
-  }
+//   void applyInternationalSurcharge(double surcharge)
+//   {
+//     internationalSurcharge = surcharge;
+//   }
 
-  double calculateTicketCost(const Passenger &p) const override
-  {
-    return 1000 + internationalSurcharge;
-  }
+//   double calculateTicketCost(const Passenger &p) const override
+//   {
+//     return 1000 + internationalSurcharge;
+//   }
 
-private:
-  double internationalSurcharge;
-};
+//   bool addPassenger(const Passenger &p) override
+//   {
+//     if (p.getPassportNumber() == "")
+//     {
+//       std::cout << "Passport number is empty. This is an international flight. Cannot add passenger." << std::endl;
+//       return false;
+//     }
+//     return Flight::addPassenger(p);
+//   }
 
-#endif
+// private:
+//   double internationalSurcharge;
+// };
+
+// #endif
