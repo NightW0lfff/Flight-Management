@@ -4,6 +4,7 @@
 #include "passenger.h"
 #include "flight.h"
 #include "booking.h"
+#include "BookingSystem.h"
 
 int main()
 {
@@ -20,43 +21,21 @@ int main()
     // Bookings
     std::vector<Booking *> bookings;
     bookings.emplace_back(new Booking("B1", flights[0], passenger1));
-    // Booking booking1("B1", flights[0], passenger1);
-    // Booking booking2("B2", flights[1], passenger2);
+    bookings.emplace_back(new Booking("B2", flights[1], passenger2));
 
-    // Cancel booking
-    // booking1.cancelBooking(flights[0], passenger1);
+    BookingSystem *bookingSys = new BookingSystem(flights, bookings);
 
-    // Create Booking
-    bookings[0]->createBooking(flights[0], passenger1);
+    // bookingSys->displayAvailableFlights();
+    bookingSys->displayBookingDetails();
+    bookingSys->displayFlightDetails();
 
-    // Update booking
-    bookings[0]->updateBooking(flights, flights[0], passenger1);
+    // bookings[0]->createBooking(flights[0], passenger1);
+    // bookings[0]->createBooking(flights[0], passenger2);
 
-    // Display booking details
-    // booking1.displayBookingDetails();
-    // booking2.displayBookingDetails();
+    // bookings[0]->updateBooking(flights[1]);
 
-    // booking2.createBooking("B2", &flight2, passenger2);
-
-    // Add passengers to flights
-    // flight1.addPassenger(passenger1);
-    // flight2.addPassenger(passenger2);
-    // flight1.addPassenger(passenger3);
-    // flight1.removePassenger(passenger3);
-
-    // Display flight details
-    // flights[0]->displayFlightDetails();
-    // flights[1].displayFlightDetails();
-
-    flights[0]->displayPassengerDetails();
-    // flight2.displayPassengerDetails();
-
-    // Display passenger details
-    // std::cout << "Passengers on flight F1:" << std::endl;
-    // passenger1.displayPassengerDetails();
-
-    // std::cout << "Passengers on flight F2:" << std::endl;
-    // passenger2.displayPassengerDetails();
+    // bookings[0]->displayBookingDetails();
+    // std::cout << std::endl;
 
     return 0;
 }

@@ -18,22 +18,28 @@ public:
     return flight->addPassenger(passenger);
   }
 
-  bool cancelBooking(Flight *flight, const Passenger &passenger)
+  bool cancelBooking()
   {
-    return flight->removePassenger(passenger);
+    return this->flight->removePassenger(this->passenger);
   }
 
-  bool updateBooking(std::vector<Flight *> &flights, Flight *updatedFlight, const Passenger &passenger)
+  bool updateBooking(Flight *updatedFlight)
   {
-    for (auto &flight : flights)
+    std::vector<Passenger> passengers = this->flight->getPassengers();
+
+    Flight *flight = this->flight;
+    Passenger &passenger = this->passenger;
+
+    for (const auto &p : passengers)
     {
-      if (flight->getFlightNo() == updatedFlight->getFlightNo())
+      if (p.getName() == passenger.getName())
       {
-        flight = updatedFlight;
-        return true;
+        flight->removePassenger(p);
       }
     }
-    return false;
+    updatedFlight->addPassenger(passenger);
+    this->flight = updatedFlight;
+    return true;
   }
 
   void displayBookingDetails() const

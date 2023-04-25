@@ -5,8 +5,6 @@
 #include <vector>
 #include <iostream>
 #include "passenger.h"
-#include "domestic.h"
-#include "international.h"
 
 class Flight
 {
@@ -25,16 +23,6 @@ public:
 
     bool addPassenger(const Passenger &p)
     {
-        // if (p.getPassportNo() != "")
-        // {
-        //     std::cout << "Passport number is not empty. This is a domestic flight. Cannot add passenger." << std::endl;
-        //     return false;
-        // }
-        // else
-        // {
-        //     std::cout << "Passport number is empty. This is an international flight. Cannot add passenger." << std::endl;
-        //     return false;
-        // }
         std::cout << "Passenger added." << std::endl;
         passengers.push_back(p);
         return true;
@@ -65,6 +53,11 @@ public:
     std::string getFlightNo() const
     {
         return flightNumber;
+    }
+
+    std::vector<Passenger> getPassengers() const
+    {
+        return passengers;
     }
 
     virtual double calculateTicketCost(const Passenger &p) const = 0;
