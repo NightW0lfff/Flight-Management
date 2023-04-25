@@ -13,6 +13,7 @@ class IBookingSystem
   virtual void displayAvailableFlights() = 0;
   virtual void displayFlightDetails() = 0;
   virtual void displayBookingDetails() = 0;
+  virtual ~IBookingSystem() {}
 };
 
 #endif
