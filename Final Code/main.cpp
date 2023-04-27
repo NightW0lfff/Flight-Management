@@ -1,9 +1,6 @@
 #include <iostream>
 #include <vector>
-// #include "Flight.h"
-// #include "Booking.h"
-// #include "Passenger.h"
-#include "FlightBookingSystem.h"
+#include "BookingSystem.h"
 
 int main()
 {
