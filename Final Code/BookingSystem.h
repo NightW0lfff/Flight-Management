@@ -43,6 +43,7 @@ public:
     std::cin >> passengerAge;
     std::cout << "Enter passenger PassportNumber: ";
     std::cin >> passengerPassport;
+    std::cout << std::endl;
 
     Passenger passenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
 
@@ -82,6 +83,7 @@ public:
     std::cout << std::endl;
     std::cout << "Enter booking reference number: ";
     std::cin >> bookingRef;
+    std::cout << std::endl;
 
     Booking *booking = nullptr;
     for (Booking *b : bookings)
@@ -99,6 +101,7 @@ public:
     std::cout << std::endl;
     std::cout << "Enter flight number: ";
     std::cin >> flightNumber;
+    std::cout << std::endl;
 
     Flight *flight = nullptr;
     for (Flight *f : flights)
@@ -115,9 +118,25 @@ public:
 
   void displayAvailableFlights() override
   {
+
+    // Display available Domestic flights
+    std::cout << "Available Domestic Flights: " << std::endl;
     for (Flight *flight : flights)
     {
-      flight->displayFlightDetails();
+      if (typeid(*flight) == typeid(DomesticFlight))
+      {
+        flight->displayFlightDetails();
+      }
+    }
+
+    // Display available International flights
+    std::cout << "Available International Flights: " << std::endl;
+    for (Flight *flight : flights)
+    {
+      if (typeid(*flight) == typeid(InternationalFlight))
+      {
+        flight->displayFlightDetails();
+      }
     }
   }
 
