@@ -19,6 +19,7 @@ public:
         std::cout << "Flight Number: " << flightNumber << ", Origin: " << origin
                   << ", Destination: " << destination << ", Departure Time: " << departureTime
                   << ", Arrival Time: " << arrivalTime << std::endl;
+        std::cout << std::endl;
     }
 
     bool addPassenger(const Passenger &p)
@@ -60,7 +61,7 @@ public:
 
     virtual double calculateTicketCost(const Passenger &p) const = 0;
 
-private:
+protected:
     std::string flightNumber;
     std::string origin;
     std::string destination;
@@ -72,7 +73,10 @@ private:
 class DomesticFlight : public Flight
 {
 public:
-    using Flight::Flight;
+    DomesticFlight(std::string flightNumber, std::string origin, std::string destination,
+                   std::string departureTime, std::string arrivalTime, double domesticDiscount = 0)
+        : Flight(flightNumber, origin, destination, departureTime, arrivalTime),
+          domesticDiscount(domesticDiscount) {}
 
     void applyDomesticDiscount(double discount)
     {
@@ -91,7 +95,9 @@ private:
 class InternationalFlight : public Flight
 {
 public:
-    using Flight::Flight;
+    InternationalFlight(std::string flightNumber, std::string origin, std::string destination,
+                        std::string departureTime, std::string arrivalTime, double internationalSurcharge)
+        : Flight(flightNumber, origin, destination, departureTime, arrivalTime), internationalSurcharge(internationalSurcharge) {}
 
     void applyInternationalSurcharge(double surcharge)
     {
