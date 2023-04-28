@@ -23,7 +23,6 @@ public:
 
     bool addPassenger(const Passenger &p)
     {
-        std::cout << "Passenger added." << std::endl;
         passengers.push_back(p);
         return true;
     }
@@ -34,7 +33,6 @@ public:
         {
             if (it->getName() == p.getName())
             {
-                std::cout << "Passenger removed." << std::endl;
                 passengers.erase(it);
                 return true;
             }
