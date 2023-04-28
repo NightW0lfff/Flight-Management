@@ -8,7 +8,7 @@
 class Passenger
 {
 public:
-    Passenger(std::string name, int age, std::string contactInfo, std::string passportNo)
+    Passenger(std::string name, int age, std::string contactInfo, std::string passportNo = "")
         : name(name), age(age), contactInfo(contactInfo), passportNo(passportNo) {}
 
     void displayPassengerDetails() const
