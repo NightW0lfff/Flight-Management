@@ -42,11 +42,17 @@ public:
     return true;
   }
 
+  std::string getBookingReferenceNumber()
+  {
+    return bookingReferenceNumber;
+  }
+
   void displayBookingDetails() const
   {
     std::cout << "Booking Reference Number: " << bookingReferenceNumber << std::endl;
     flight->displayFlightDetails();
     passenger.displayPassengerDetails();
+    std::cout << std::endl;
   }
 
 private:
