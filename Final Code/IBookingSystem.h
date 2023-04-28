@@ -7,13 +7,13 @@
 
 class IBookingSystem
 {
-  // virtual bool createBooking();
-  // virtual bool cancelBooking();
-  // virtual bool updateBooking();
+public:
+  virtual bool createBooking() = 0;
+  virtual bool cancelBooking() = 0;
+  virtual bool updateBooking() = 0;
   virtual void displayAvailableFlights() = 0;
   virtual void displayFlightDetails() = 0;
   virtual void displayBookingDetails() = 0;
-  virtual ~IBookingSystem() {}
 };
 
 #endif
