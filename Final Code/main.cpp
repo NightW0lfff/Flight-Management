@@ -1,66 +1,80 @@
 #include <iostream>
 #include <vector>
 #include "BookingSystem.h"
+#include "IBookingSystem.h"
 
 int main()
 {
 
-  // Create some flights
+  // Create flights
   std::vector<Flight *> flights;
+  flights.push_back(new DomesticFlight("F1", "New York", "Los Angeles", "09:00", "14:00", 500));
+  flights.push_back(new InternationalFlight("F2", "New York", "London", "19:00", "07:00", 500));
 
-  DomesticFlight *flight1 = new DomesticFlight("F1", "New York", "Los Angeles", "09:00", "14:00");
-  InternationalFlight *flight2 = new InternationalFlight("F2", "New York", "London", "19:00", "07:00");
-  flights.emplace_back(*flight1);
-  flights.emplace_back(*flight2);
-  // flights.emplace_back("AI206", "DEL", "BLR", "2022-05-02 09:00", "2022-05-02 12:00");
+  // Create passengers
+  Passenger passenger1("John Doe", 35, "1234567890", "c123123");
+  Passenger passenger2("Jane Doe", 29, "0987654321", "c321321");
+  Passenger passenger3("John Smith", 45, "1234567890", "c123123");
 
-  // Create some bookings
-  std::vector<Booking> bookings;
-  bookings.emplace_back("BK001", *flights[0], Passenger("John Doe", 35, "1234567890"));
-  bookings.emplace_back("BK002", *flights[1], Passenger("Jane Doe", 29, "0987654321"));
+  // Bookings
+  std::vector<Booking *> bookings;
+  bookings.emplace_back(new Booking("B1", flights[0], passenger1));
+  bookings.emplace_back(new Booking("B2", flights[1], passenger2));
 
-  // Create a FlightBookingSystem
-  FlightBookingSystem system(flights, bookings);
+  IBookingSystem *bookingSys = new BookingSystem(flights, bookings);
 
-  // Test createBooking function
-  // if (system.createBooking(flights[0], Passenger("Bob Smith", 45, "1234567890")))
-  // {
-  //   std::cout << "Booking created successfully." << std::endl;
-  // }
-  // else
-  // {
-  //   std::cout << "Failed to create booking." << std::endl;
-  // }
+  bool exit = false;
+  while (!exit)
+  {
+    std::cout << "1. Create Booking" << std::endl;
+    std::cout << "2. Cancel Booking" << std::endl;
+    std::cout << "3. Update Booking" << std::endl;
+    std::cout << "4. Display Booking Details" << std::endl;
+    std::cout << "5. Display Flight Details" << std::endl;
+    std::cout << "6. Display Available Flights" << std::endl;
+    std::cout << "7. Exit" << std::endl;
+    std::cout << "Enter your choice: ";
+    int choice;
+    std::cin >> choice;
+    std::cout << std::endl;
+    switch (choice)
+    {
+    case 1:
+      bookingSys->createBooking();
+      break;
+    case 2:
+      bookingSys->cancelBooking();
+      break;
+    case 3:
+      bookingSys->updateBooking();
+      break;
+    case 4:
+      bookingSys->displayBookingDetails();
+      break;
+    case 5:
+      bookingSys->displayFlightDetails();
+      break;
+    case 6:
+      bookingSys->displayAvailableFlights();
+      break;
+    case 7:
+      exit = true;
+      break;
+    default:
+      std::cout << "Invalid choice" << std::endl;
+    }
+  }
 
-  // Test cancelBooking function
-  // if (system.cancelBooking(flights[0], Passenger("John Doe", 35, "1234567890")))
-  // {
-  //   std::cout << "Booking canceled successfully." << std::endl;
-  // }
-  // else
-  // {
-  //   std::cout << "Failed to cancel booking." << std::endl;
-  // }
+  // bookingSys->displayAvailableFlights();
+  // bookingSys->displayBookingDetails();
+  // bookingSys->displayFlightDetails();
 
-  // "John Doe", 35, "1234567890"
+  // bookingSys->createBooking();
+  // bookingSys->displayBookingDetails();
+  // bookingSys->cancelBooking();
 
-  // Test updateBooking function
-  // Flight *updatedFlight = new Flight("AI202", "DEL", "BOM", "2022-05-01 10:00", "2022-05-01 12:00");
-  // updatedFlight->addPassenger(Passenger("Bob Smith", 45, "1234567890"));
-  // if (system.updateBooking(updatedFlight, Passenger("John Doe", 35, "1234567890")))
-  // {
-  //   std::cout << "Booking updated successfully." << std::endl;
-  // }
-  // else
-  // {
-  //   std::cout << "Failed to update booking." << std::endl;
-  // }
-  // delete updatedFlight;
+  // bookingSys->updateBooking();
 
-  // Test display functions
-  // system.displayFlightDetails();
-  // system.displayBookingDetails();
-  // system.displayAvailableFlights();
-
+  // bookingSys->displayBookingDetails();
   return 0;
 }
