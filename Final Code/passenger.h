@@ -31,11 +31,17 @@ public:
         return name;
     }
 
+    void addAmountOwed(double amount)
+    {
+        owedAmount += amount;
+    }
+
 private:
     std::string name;
     int age;
     std::string contactInfo;
     std::string passportNo;
+    double owedAmount = 0.0;
 };
 
 #endif
