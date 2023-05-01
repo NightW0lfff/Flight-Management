@@ -64,17 +64,5 @@ int main()
       std::cout << "Invalid choice" << std::endl;
     }
   }
-
-  // bookingSys->displayAvailableFlights();
-  // bookingSys->displayBookingDetails();
-  // bookingSys->displayFlightDetails();
-
-  // bookingSys->createBooking();
-  // bookingSys->displayBookingDetails();
-  // bookingSys->cancelBooking();
-
-  // bookingSys->updateBooking();
-
-  // bookingSys->displayBookingDetails();
   return 0;
 }
