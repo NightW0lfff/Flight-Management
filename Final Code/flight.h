@@ -22,9 +22,33 @@ public:
         std::cout << std::endl;
     }
 
+    virtual bool isInternational() const = 0;
+
     bool addPassenger(const Passenger &p)
     {
+        // if the passenger is going on the international flight, check if the passenger has a passport number
+        if (isInternational())
+        {
+            if (p.getPassportNo().empty())
+            {
+                std::cout << "Passenger " << p.getName() << " cannot be added to the flight "
+                          << flightNumber << " because the passenger does not have a passport number."
+                          << std::endl;
+
+                std::cout << "This is an international flight." << std::endl;
+                std::cout << std::endl;
+
+                return false;
+            }
+        }
+
         passengers.push_back(p);
+        double tickCost = calculateTicketCost();
+        std::cout << tickCost << std::endl;
+        // Passenger passengerRef = passengers.back();
+        passengers.back().addAmountOwed(tickCost);
+        // passengerRef.addAmountOwed(tickCost);
+        // p.addAmountOwed(tickCost, passengerRef);
         return true;
     }
 
@@ -35,6 +59,8 @@ public:
             if (it->getName() == p.getName())
             {
                 passengers.erase(it);
+                double tickCost = calculateTicketCost();
+                // p.removeAmountOwed(tickCost);
                 return true;
             }
         }
@@ -59,7 +85,7 @@ public:
         return passengers;
     }
 
-    virtual double calculateTicketCost(const Passenger &p) const = 0;
+    virtual double calculateTicketCost() const = 0;
 
 protected:
     std::string flightNumber;
@@ -74,43 +100,67 @@ class DomesticFlight : public Flight
 {
 public:
     DomesticFlight(std::string flightNumber, std::string origin, std::string destination,
-                   std::string departureTime, std::string arrivalTime, double domesticDiscount = 0)
-        : Flight(flightNumber, origin, destination, departureTime, arrivalTime),
-          domesticDiscount(domesticDiscount) {}
+                   std::string departureTime, std::string arrivalTime, double baseFare = 0.0)
+        : Flight(flightNumber, origin, destination, departureTime, arrivalTime), baseFare(baseFare) {}
 
     void applyDomesticDiscount(double discount)
     {
         domesticDiscount = discount;
     }
 
-    double calculateTicketCost(const Passenger &p) const override
+    double calculateTicketCost() const override
     {
-        return 1000 - domesticDiscount;
+        std::cout << "Base Fare: " << baseFare << std::endl;
+        return baseFare - domesticDiscount;
     }
 
+    bool isInternational() const override
+    {
+        return false;
+    }
+
+    // double getBaseFare() const
+    // {
+    //     std::cout << "Base Fare: " << baseFare << std::endl;
+    //     return baseFare;
+    // }
+
 private:
-    double domesticDiscount;
+    double domesticDiscount = 50.0;
+    double baseFare;
 };
 
 class InternationalFlight : public Flight
 {
 public:
     InternationalFlight(std::string flightNumber, std::string origin, std::string destination,
-                        std::string departureTime, std::string arrivalTime, double internationalSurcharge)
-        : Flight(flightNumber, origin, destination, departureTime, arrivalTime), internationalSurcharge(internationalSurcharge) {}
+                        std::string departureTime, std::string arrivalTime, double baseFare = 0.0)
+        : Flight(flightNumber, origin, destination, departureTime, arrivalTime), baseFare(baseFare) {}
 
     void applyInternationalSurcharge(double surcharge)
     {
         internationalSurcharge = surcharge;
     }
 
-    double calculateTicketCost(const Passenger &p) const override
+    double calculateTicketCost() const override
     {
-        return 1000 + internationalSurcharge;
+        return baseFare + internationalSurcharge;
     }
 
+    bool isInternational() const override
+    {
+        return true;
+    }
+
+    // double getBaseFare() const
+    // {
+    //     std::cout << "Base Fare: " << baseFare << std::endl;
+    //     return baseFare;
+    // }
+
 private:
-    double internationalSurcharge;
+    double internationalSurcharge = 100.0;
+    double baseFare;
 };
 
 #endif
