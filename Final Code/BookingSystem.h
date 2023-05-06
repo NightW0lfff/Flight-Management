@@ -11,8 +11,8 @@
 class BookingSystem : public IBookingSystem
 {
 public:
-  BookingSystem(std::vector<Flight *> flights, std::vector<Booking *> bookings)
-      : flights(flights), bookings(bookings) {}
+  BookingSystem(std::vector<Flight *> flights, std::vector<Booking *> bookings, Passenger *passenger)
+      : flights(flights), bookings(bookings), passenger(passenger) {}
 
   bool createBooking() override
   {
@@ -33,35 +33,9 @@ public:
       }
     }
 
-    std::string passengerName, passengerContact, passengerAge, passengerPassport;
-    std::cout << std::endl;
-
-    std::cout << "Enter passenger name: ";
-    std::cin.ignore();
-    std::getline(std::cin, passengerName);
-
-    std::cout << "Enter passenger contact number: ";
-    std::cin.ignore();
-    std::getline(std::cin, passengerContact);
-
-    std::cout << "Enter passenger age: ";
-    std::getline(std::cin, passengerAge);
-
-    std::cout << "Enter passenger PassportNumber (press enter to skip): ";
-    std::getline(std::cin, passengerPassport);
-
-    std::cout << std::endl;
-
-    if (passengerPassport.empty())
-    {
-      passengerPassport = "";
-    }
-
-    Passenger passenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
-
     std::string bookingRef = "B" + std::to_string(bookings.size() + 1);
 
-    Booking *booking = new Booking(bookingRef, flight, passenger);
+    Booking *booking = new Booking(bookingRef, flight, this->passenger);
     bookings.push_back(booking);
 
     return booking->createBooking(flight, passenger);
@@ -107,7 +81,37 @@ public:
       }
     }
 
-    displayAvailableFlights();
+    // displayAvailableFlights();
+    std::cout << "Available Domestic Flights: " << std::endl;
+    for (Flight *flight : flights)
+    {
+      // Skip the flight that the passenger is already booked on
+      if (flight->getFlightNo() == booking->getFlight()->getFlightNo())
+      {
+        continue;
+      }
+
+      if (!flight->isInternational())
+      {
+        flight->displayFlightDetails();
+      }
+    }
+
+    // Display available International flights
+    std::cout << "Available International Flights: " << std::endl;
+    for (Flight *flight : flights)
+    {
+      // Skip the flight that the passenger is already booked on
+      if (flight->getFlightNo() == booking->getFlight()->getFlightNo())
+      {
+        continue;
+      }
+
+      if (flight->isInternational())
+      {
+        flight->displayFlightDetails();
+      }
+    }
 
     std::string flightNumber;
     std::cout << std::endl;
@@ -171,6 +175,7 @@ public:
 private:
   std::vector<Flight *> flights;
   std::vector<Booking *> bookings;
+  Passenger *passenger;
 };
 
 #endif
