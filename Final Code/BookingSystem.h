@@ -35,15 +35,27 @@ public:
 
     std::string passengerName, passengerContact, passengerAge, passengerPassport;
     std::cout << std::endl;
+
     std::cout << "Enter passenger name: ";
-    std::cin >> passengerName;
+    std::cin.ignore();
+    std::getline(std::cin, passengerName);
+
     std::cout << "Enter passenger contact number: ";
-    std::cin >> passengerContact;
+    std::cin.ignore();
+    std::getline(std::cin, passengerContact);
+
     std::cout << "Enter passenger age: ";
-    std::cin >> passengerAge;
-    std::cout << "Enter passenger PassportNumber: ";
-    std::cin >> passengerPassport;
+    std::getline(std::cin, passengerAge);
+
+    std::cout << "Enter passenger PassportNumber (press enter to skip): ";
+    std::getline(std::cin, passengerPassport);
+
     std::cout << std::endl;
+
+    if (passengerPassport.empty())
+    {
+      passengerPassport = "";
+    }
 
     Passenger passenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
 
