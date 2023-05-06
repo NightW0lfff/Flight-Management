@@ -10,10 +10,10 @@
 class Booking
 {
 public:
-  Booking(std::string bookingReferenceNumber, Flight *flight, Passenger &passenger)
+  Booking(std::string bookingReferenceNumber, Flight *flight, Passenger *passenger)
       : bookingReferenceNumber(bookingReferenceNumber), flight(flight), passenger(passenger) {}
 
-  bool createBooking(Flight *flight, Passenger &passenger)
+  bool createBooking(Flight *flight, Passenger *passenger)
   {
     return flight->addPassenger(passenger);
   }
@@ -25,14 +25,14 @@ public:
 
   bool updateBooking(Flight *updatedFlight)
   {
-    std::vector<Passenger> passengers = this->flight->getPassengers();
+    std::vector<Passenger *> passengers = this->flight->getPassengers();
 
     Flight *flight = this->flight;
-    Passenger &passenger = this->passenger;
+    Passenger *passenger = this->passenger;
 
-    for (auto &p : passengers)
+    for (auto *p : passengers)
     {
-      if (p.getName() == passenger.getName())
+      if (p->getName() == passenger->getName())
       {
         flight->removePassenger(p);
       }
@@ -51,14 +51,18 @@ public:
   {
     std::cout << "Booking Reference Number: " << bookingReferenceNumber << std::endl;
     flight->displayFlightDetails();
-    passenger.displayPassengerDetails();
     std::cout << std::endl;
+  }
+
+  Flight *getFlight() const
+  {
+    return flight;
   }
 
 private:
   std::string bookingReferenceNumber;
   Flight *flight;
-  Passenger passenger;
+  Passenger *passenger;
 };
 
 #endif
