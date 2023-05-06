@@ -10,10 +10,10 @@
 class Booking
 {
 public:
-  Booking(std::string bookingReferenceNumber, Flight *flight, const Passenger &passenger)
+  Booking(std::string bookingReferenceNumber, Flight *flight, Passenger &passenger)
       : bookingReferenceNumber(bookingReferenceNumber), flight(flight), passenger(passenger) {}
 
-  bool createBooking(Flight *flight, const Passenger &passenger)
+  bool createBooking(Flight *flight, Passenger &passenger)
   {
     return flight->addPassenger(passenger);
   }
@@ -30,7 +30,7 @@ public:
     Flight *flight = this->flight;
     Passenger &passenger = this->passenger;
 
-    for (const auto &p : passengers)
+    for (auto &p : passengers)
     {
       if (p.getName() == passenger.getName())
       {
