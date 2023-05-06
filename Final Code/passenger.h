@@ -35,7 +35,6 @@ public:
     void addAmountOwed(double amount)
     {
         owedAmount += amount;
-        // std::cout << "Passenger " << name << " now owes " << owedAmount << std::endl;
     }
 
     void removeAmountOwed(double amount)
