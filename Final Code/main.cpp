@@ -19,11 +19,37 @@ int main()
   // bookings.emplace_back(new Booking("B1", flights[0], passenger1));
   // bookings.emplace_back(new Booking("B2", flights[1], passenger2));
 
-  IBookingSystem *bookingSys = new BookingSystem(flights, bookings);
+  std::string passengerName, passengerContact, passengerAge, passengerPassport;
+  std::cout << std::endl;
+
+  std::cout << "Enter name: ";
+  std::cin >> passengerName;
+
+  std::cout << "Enter contact number: ";
+  std::cin >> passengerContact;
+
+  std::cout << "Enter age: ";
+  std::cin >> passengerAge;
+
+  std::cout << "Enter PassportNumber (press enter to skip): ";
+  std::cin.ignore();
+  std::getline(std::cin, passengerPassport);
+
+  std::cout << std::endl;
+
+  if (passengerPassport.empty())
+  {
+    passengerPassport = "";
+  }
+
+  Passenger *passenger = new Passenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
+
+  IBookingSystem *bookingSys = new BookingSystem(flights, bookings, passenger);
 
   bool exit = false;
   while (!exit)
   {
+    passenger->displayPassengerDetails();
     std::cout << "1. Create Booking" << std::endl;
     std::cout << "2. Cancel Booking" << std::endl;
     std::cout << "3. Update Booking" << std::endl;
