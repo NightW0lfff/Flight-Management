@@ -8,18 +8,16 @@ int main()
 
   // Create flights
   std::vector<Flight *> flights;
-  flights.push_back(new DomesticFlight("F1", "New York", "Los Angeles", "09:00", "14:00", 500));
-  flights.push_back(new InternationalFlight("F2", "New York", "London", "19:00", "07:00", 500));
+  flights.push_back(new DomesticFlight("F1", "New York", "Los Angeles", "09:00", "14:00", 500.0));
+  flights.push_back(new InternationalFlight("F2", "New York", "London", "19:00", "07:00", 1000.0));
 
   // Create passengers
-  Passenger passenger1("John Doe", 35, "1234567890", "c123123");
-  Passenger passenger2("Jane Doe", 29, "0987654321", "c321321");
-  Passenger passenger3("John Smith", 45, "1234567890", "c123123");
-
+  // Passenger passenger1("John Doe", 35, "1234567890", "c123123");
+  // Passenger passenger2("Jane Doe", 29, "0987654321");
   // Bookings
   std::vector<Booking *> bookings;
-  bookings.emplace_back(new Booking("B1", flights[0], passenger1));
-  bookings.emplace_back(new Booking("B2", flights[1], passenger2));
+  // bookings.emplace_back(new Booking("B1", flights[0], passenger1));
+  // bookings.emplace_back(new Booking("B2", flights[1], passenger2));
 
   IBookingSystem *bookingSys = new BookingSystem(flights, bookings);
 
@@ -33,7 +31,7 @@ int main()
     std::cout << "5. Display Flight Details" << std::endl;
     std::cout << "6. Display Available Flights" << std::endl;
     std::cout << "7. Exit" << std::endl;
-    std::cout << "Enter your choice: ";
+    std::cout << "Enter your choice number: ";
     int choice;
     std::cin >> choice;
     std::cout << std::endl;
