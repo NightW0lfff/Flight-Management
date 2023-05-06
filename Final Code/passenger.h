@@ -8,8 +8,8 @@
 class Passenger
 {
 public:
-    Passenger(std::string name, int age, std::string contactInfo, std::string passportNo = "")
-        : name(name), age(age), contactInfo(contactInfo), passportNo(passportNo) {}
+    Passenger(std::string name, int age, std::string contactInfo, std::string passportNo = "", double owedAmount = 0.0)
+        : name(name), age(age), contactInfo(contactInfo), passportNo(passportNo), owedAmount(owedAmount) {}
 
     void displayPassengerDetails() const
     {
@@ -18,6 +18,7 @@ public:
         {
             std::cout << ", Passport No: " << passportNo;
         }
+        std::cout << ", Owed Amount: " << owedAmount << std::endl;
         std::cout << std::endl;
     }
 
@@ -34,6 +35,12 @@ public:
     void addAmountOwed(double amount)
     {
         owedAmount += amount;
+        // std::cout << "Passenger " << name << " now owes " << owedAmount << std::endl;
+    }
+
+    void removeAmountOwed(double amount)
+    {
+        owedAmount -= amount;
     }
 
 private:
@@ -41,7 +48,7 @@ private:
     int age;
     std::string contactInfo;
     std::string passportNo;
-    double owedAmount = 0.0;
+    double owedAmount;
 };
 
 #endif
