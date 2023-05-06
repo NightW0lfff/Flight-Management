@@ -24,14 +24,14 @@ public:
 
     virtual bool isInternational() const = 0;
 
-    bool addPassenger(const Passenger &p)
+    bool addPassenger(Passenger *p)
     {
         // if the passenger is going on the international flight, check if the passenger has a passport number
         if (isInternational())
         {
-            if (p.getPassportNo().empty())
+            if (p->getPassportNo().empty())
             {
-                std::cout << "Passenger " << p.getName() << " cannot be added to the flight "
+                std::cout << "Passenger " << p->getName() << " cannot be added to the flight "
                           << flightNumber << " because the passenger does not have a passport number."
                           << std::endl;
 
@@ -43,24 +43,20 @@ public:
         }
 
         passengers.push_back(p);
-        double tickCost = calculateTicketCost();
-        std::cout << tickCost << std::endl;
-        // Passenger passengerRef = passengers.back();
-        passengers.back().addAmountOwed(tickCost);
-        // passengerRef.addAmountOwed(tickCost);
-        // p.addAmountOwed(tickCost, passengerRef);
+        double ticketCost = calculateTicketCost();
+        p->addAmountOwed(ticketCost);
         return true;
     }
 
-    bool removePassenger(const Passenger &p)
+    bool removePassenger(Passenger *p)
     {
         for (auto it = passengers.begin(); it != passengers.end(); ++it)
         {
-            if (it->getName() == p.getName())
+            if ((*it)->getName() == p->getName())
             {
                 passengers.erase(it);
-                double tickCost = calculateTicketCost();
-                // p.removeAmountOwed(tickCost);
+                double ticketCost = calculateTicketCost();
+                p->removeAmountOwed(ticketCost);
                 return true;
             }
         }
@@ -69,9 +65,9 @@ public:
 
     void displayPassengerDetails() const
     {
-        for (const auto &p : passengers)
+        for (const auto *p : passengers)
         {
-            p.displayPassengerDetails();
+            p->displayPassengerDetails();
         }
     }
 
@@ -80,7 +76,7 @@ public:
         return flightNumber;
     }
 
-    std::vector<Passenger> getPassengers() const
+    std::vector<Passenger *> getPassengers() const
     {
         return passengers;
     }
@@ -93,7 +89,7 @@ protected:
     std::string destination;
     std::string departureTime;
     std::string arrivalTime;
-    std::vector<Passenger> passengers;
+    std::vector<Passenger *> passengers;
 };
 
 class DomesticFlight : public Flight
@@ -110,7 +106,6 @@ public:
 
     double calculateTicketCost() const override
     {
-        std::cout << "Base Fare: " << baseFare << std::endl;
         return baseFare - domesticDiscount;
     }
 
@@ -118,12 +113,6 @@ public:
     {
         return false;
     }
-
-    // double getBaseFare() const
-    // {
-    //     std::cout << "Base Fare: " << baseFare << std::endl;
-    //     return baseFare;
-    // }
 
 private:
     double domesticDiscount = 50.0;
@@ -151,12 +140,6 @@ public:
     {
         return true;
     }
-
-    // double getBaseFare() const
-    // {
-    //     std::cout << "Base Fare: " << baseFare << std::endl;
-    //     return baseFare;
-    // }
 
 private:
     double internationalSurcharge = 100.0;
