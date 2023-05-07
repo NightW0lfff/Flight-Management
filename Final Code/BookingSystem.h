@@ -115,17 +115,17 @@ public:
   void upgradePassengerStatus()
   {
     // check if passenger is eligible for upgrade by checking their bookings
-    if (bookings.size() >= 1 && bookings.size() < 2)
+    if (bookings.size() >= 1 && bookings.size() < 3)
     {
       passenger->setStatus("SILVER");
       std::cout << "Passenger upgraded to SILVER status" << std::endl;
     }
-    else if (bookings.size() >= 2 && bookings.size() < 3)
+    else if (bookings.size() >= 3 && bookings.size() < 5)
     {
       std::cout << "Passenger upgraded to GOLD status" << std::endl;
       passenger->setStatus("GOLD");
     }
-    else if (bookings.size() >= 3 && bookings.size() < 4)
+    else if (bookings.size() >= 6)
     {
       std::cout << "Passenger upgraded to PLATINUM status" << std::endl;
       passenger->setStatus("PLATINUM");
