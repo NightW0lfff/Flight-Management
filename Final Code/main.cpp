@@ -31,7 +31,7 @@ int main()
   std::cout << "Enter age: ";
   std::cin >> passengerAge;
 
-  std::cout << "Enter PassportNumber (press enter to skip): ";
+  std::cout << "Enter Passport Number (press enter to skip): ";
   std::cin.ignore();
   std::getline(std::cin, passengerPassport);
 
@@ -42,13 +42,14 @@ int main()
     passengerPassport = "";
   }
 
-  Passenger *passenger = new Passenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
+  Passenger *passenger = new VIPPassenger(passengerName, std::stoi(passengerAge), passengerContact, passengerPassport);
 
   IBookingSystem *bookingSys = new BookingSystem(flights, bookings, passenger);
 
   bool exit = false;
   while (!exit)
   {
+    std::cout << std::endl;
     passenger->displayPassengerDetails();
     std::cout << "1. Create Booking" << std::endl;
     std::cout << "2. Cancel Booking" << std::endl;
