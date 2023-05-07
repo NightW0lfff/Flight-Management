@@ -35,10 +35,20 @@ public:
 
     std::string bookingRef = "B" + std::to_string(bookings.size() + 1);
 
-    Booking *booking = new Booking(bookingRef, flight, this->passenger);
-    bookings.push_back(booking);
+    Booking *booking = new Booking(bookingRef);
 
-    return booking->createBooking(flight, passenger);
+    if (booking->createBooking(flight, passenger))
+    {
+      std::cout << "Booking successful!" << std::endl;
+      bookings.push_back(booking);
+      upgradePassengerStatus();
+    }
+    else
+    {
+      std::cout << "Booking failed!" << std::endl;
+      return false;
+    }
+    return true;
   }
 
   bool cancelBooking() override
@@ -81,37 +91,7 @@ public:
       }
     }
 
-    // displayAvailableFlights();
-    std::cout << "Available Domestic Flights: " << std::endl;
-    for (Flight *flight : flights)
-    {
-      // Skip the flight that the passenger is already booked on
-      if (flight->getFlightNo() == booking->getFlight()->getFlightNo())
-      {
-        continue;
-      }
-
-      if (!flight->isInternational())
-      {
-        flight->displayFlightDetails();
-      }
-    }
-
-    // Display available International flights
-    std::cout << "Available International Flights: " << std::endl;
-    for (Flight *flight : flights)
-    {
-      // Skip the flight that the passenger is already booked on
-      if (flight->getFlightNo() == booking->getFlight()->getFlightNo())
-      {
-        continue;
-      }
-
-      if (flight->isInternational())
-      {
-        flight->displayFlightDetails();
-      }
-    }
+    displayAvailableFlights();
 
     std::string flightNumber;
     std::cout << std::endl;
@@ -132,6 +112,26 @@ public:
     return booking->updateBooking(flight);
   }
 
+  void upgradePassengerStatus()
+  {
+    // check if passenger is eligible for upgrade by checking their bookings
+    if (bookings.size() >= 1 && bookings.size() < 2)
+    {
+      passenger->setStatus("SILVER");
+      std::cout << "Passenger upgraded to SILVER status" << std::endl;
+    }
+    else if (bookings.size() >= 2 && bookings.size() < 3)
+    {
+      std::cout << "Passenger upgraded to GOLD status" << std::endl;
+      passenger->setStatus("GOLD");
+    }
+    else if (bookings.size() >= 3 && bookings.size() < 4)
+    {
+      std::cout << "Passenger upgraded to PLATINUM status" << std::endl;
+      passenger->setStatus("PLATINUM");
+    }
+  }
+
   void displayAvailableFlights() override
   {
 
@@ -141,7 +141,14 @@ public:
     {
       if (typeid(*flight) == typeid(DomesticFlight))
       {
-        flight->displayFlightDetails();
+        if (flight->isInFlight(passenger))
+        {
+          flight->displayFlightDetails();
+        }
+        else
+        {
+          continue;
+        }
       }
     }
 
@@ -151,7 +158,14 @@ public:
     {
       if (typeid(*flight) == typeid(InternationalFlight))
       {
-        flight->displayFlightDetails();
+        if (flight->isInFlight(passenger))
+        {
+          flight->displayFlightDetails();
+        }
+        else
+        {
+          continue;
+        }
       }
     }
   }
