@@ -14,18 +14,26 @@ public:
         : flightNumber(flightNumber), origin(origin), destination(destination),
           departureTime(departureTime), arrivalTime(arrivalTime) {}
 
-    void displayFlightDetails() const
+    std::string getFlightNo() const
     {
-        std::cout << "Flight Number: " << flightNumber << ", Origin: " << origin
-                  << ", Destination: " << destination << ", Departure Time: " << departureTime
-                  << ", Arrival Time: " << arrivalTime << std::endl;
-        std::cout << std::endl;
+        return flightNumber;
     }
 
-    virtual bool isInternational() const = 0;
+    std::vector<Passenger *> getPassengers() const
+    {
+        return passengers;
+    }
 
     bool addPassenger(Passenger *p)
     {
+        // check if passenger is in flight
+        if (!isInFlight(p))
+        {
+            std::cout << "Passenger " << p->getName() << " is already in flight "
+                      << flightNumber << std::endl;
+            return false;
+        }
+
         // if the passenger is going on the international flight, check if the passenger has a passport number
         if (isInternational())
         {
@@ -43,7 +51,14 @@ public:
         }
 
         passengers.push_back(p);
+        // Passenger *passenger = new VIPPassenger(passenger->getName(), passenger->getAge(), passenger->getContactInfo(), passenger->getPassportNo());
+
         double ticketCost = calculateTicketCost();
+        ticketCost -= (ticketCost * p->getDiscountRate());
+
+        std::cout << std::endl;
+        std::cout << "Ticket cost after discount: " << ticketCost << std::endl;
+
         p->addAmountOwed(ticketCost);
         return true;
     }
@@ -56,11 +71,26 @@ public:
             {
                 passengers.erase(it);
                 double ticketCost = calculateTicketCost();
+                ticketCost += (ticketCost * p->getDiscountRate());
+                std::cout << std::endl;
+                std::cout << "Ticket cost after discount: " << ticketCost << std::endl;
                 p->removeAmountOwed(ticketCost);
                 return true;
             }
         }
         return false;
+    }
+
+    bool isInFlight(Passenger *p) const
+    {
+        for (const auto *passenger : passengers)
+        {
+            if (passenger->getName() == p->getName())
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     void displayPassengerDetails() const
@@ -71,16 +101,15 @@ public:
         }
     }
 
-    std::string getFlightNo() const
+    void displayFlightDetails() const
     {
-        return flightNumber;
+        std::cout << "Flight Number: " << flightNumber << ", Origin: " << origin
+                  << ", Destination: " << destination << ", Departure Time: " << departureTime
+                  << ", Arrival Time: " << arrivalTime << std::endl;
+        std::cout << std::endl;
     }
 
-    std::vector<Passenger *> getPassengers() const
-    {
-        return passengers;
-    }
-
+    virtual bool isInternational() const = 0;
     virtual double calculateTicketCost() const = 0;
 
 protected:
